@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         port_button = (Button) findViewById(R.id.port_btn);
         connect_button = (Button) findViewById(R.id.connect_btn);
         connect_status = (TextView) findViewById(R.id.status_bar);
-        response_set = (TextView) findViewById(R.id.response);
+        response_set = (TextView) findViewById(R.id.response_set);
 
         ip_adr.setText(clear_text);
         port_adr.setText(clear_text);
@@ -128,11 +128,29 @@ public class Client extends AsyncTask<Void,Void,Void>{
 
         } catch (UnknownHostException e) {
             e.printStackTrace();
+            response = "UnknownHostException : " +e.toString();
         } catch (IOException e) {
             e.printStackTrace();
+            response="IOException : " +e.toString();
+        }
+        finally {
+            if(socket !=null) try {
+
+                socket.close();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return null;
+    }
+    @Override
+    protected void onPostExecute(Void result){
+
+        response_set.setText(response);
+        super.onPostExecute(result);
+
     }
 }
 
